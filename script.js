@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // setInterval(goNext, 5000);
     }
 
+
     // Header Scroll Effect
     const header = document.getElementById('main-header');
     window.addEventListener('scroll', () => {
@@ -81,4 +82,35 @@ document.addEventListener('DOMContentLoaded', () => {
             header.style.background = 'rgba(0,0,0,0.8)';
         }
     });
+
+    // Mobile Menu - Close on Link Click
+    const navLinks = document.querySelectorAll('.main-nav a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (mainNav.classList.contains('active')) {
+                mainNav.classList.remove('active');
+                if (menuToggle) menuToggle.classList.remove('active'); // Optional: Add active state to hamburger
+            }
+        });
+    });
+
+    // Scroll Animations (Intersection Observer)
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const animateOnScroll = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target); // Only animate once
+            }
+        });
+    }, observerOptions);
+
+    const animatedElements = document.querySelectorAll('.fade-in-up');
+    animatedElements.forEach(el => animateOnScroll.observe(el));
 });
+
